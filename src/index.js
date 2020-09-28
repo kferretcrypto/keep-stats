@@ -9,7 +9,7 @@ import Analytics from 'react-router-ga'
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Analytics id="">
+      <Analytics id="UA-179129661-1">
         <App />
       </Analytics>
     </Router>
