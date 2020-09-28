@@ -173,7 +173,7 @@ const Header = styled.div`
   margin-bottom: 30px;
 `
 
-const LogoLink = styled.div`
+const LogoLink = styled.a`
   flex: 1;
 `
 
