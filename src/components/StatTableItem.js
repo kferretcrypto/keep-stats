@@ -29,6 +29,7 @@ const StatLabel = styled.div`
   font-weight: 500;
   font-size: 14px;
   color: #8c8c8c;
+  padding-top: 1px;
 `
 
 const StatValue = styled.div`
