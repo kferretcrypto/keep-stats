@@ -157,13 +157,14 @@ const GlobalStyle = createGlobalStyle`
 
 const Layout = styled.div`
   margin: 0 auto;
-  padding: 30px 10px;
+  padding: 10px 10px;
 
   display: flex;
 
   flex-direction: column;
 
   @media only screen and (min-width: 960px) {
+    padding: 30px 10px;
     width: 900px;
   }
 `
@@ -173,7 +174,13 @@ const Header = styled.div`
 
   align-items: center;
 
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+
+  @media only screen and (min-width: 960px) {
+    margin-bottom: 30px;
+    padding: 30px 10px;
+    width: 900px;
+  }
 `
 
 const UpdateStatus = styled.div`
@@ -216,13 +223,15 @@ const LoadingIndicator = styled.div`
 
 const Cards = styled.div`
   display: grid;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   align-items: start;
-  grid-gap: 30px;
+  grid-gap: 10px;
   grid-template-columns: 1fr;
 
   @media only screen and (min-width: 960px) {
+    margin-bottom: 30px;
+    grid-gap: 30px;
     grid-template-columns: repeat(auto-fit, 280px);
   }
 `
