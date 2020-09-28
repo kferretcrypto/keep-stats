@@ -55,13 +55,13 @@ class App extends React.Component {
         </Header>
         <Cards>
           <StatSingleCard
-            iconColor="#48DBB4"
-            label="KEEP Token Price"
-            value="$1.33"
-            valueSmall="USD"
+            iconColor="#0A0806"
+            label="TBTC Supply"
+            value="13.57"
+            valueSmall="TBTC"
             ready={ready}
           >
-            <IconKeep />
+            <IconTBTC />
           </StatSingleCard>
           <StatSingleCard
             iconColor="#7850CD"
@@ -73,38 +73,26 @@ class App extends React.Component {
             <IconLock />
           </StatSingleCard>
           <StatSingleCard
-            iconColor="#0A0806"
-            label="TBTC Supply"
-            value="13.57"
-            valueSmall="TBTC"
+            iconColor="#48DBB4"
+            label="KEEP Token Price"
+            value="$1.33"
+            valueSmall="USD"
             ready={ready}
           >
-            <IconTBTC />
+            <IconKeep />
           </StatSingleCard>
         </Cards>
         <Cards>
-          <StatTableCard label="Keep Stats" ready={ready}>
-            <StatTableItem label="Market Cap" value="$1.22B" valueSmall="USD" />
+          <StatTableCard label="tBTC System Stats" ready={ready}>
+            <StatTableItem label="TBTC Minted" value="39" valueSmall="TBTC" />
+            <StatTableItem label="TBTC Burned" value="0.2" valueSmall="TBTC" />
+            <StatTableItem label="TBTC Holders" value="39" valueSmall="" />
+            <StatTableItem label="Deposits" value="25" valueSmall="" />
+            <StatTableItem label="Deposited" value="13.57" valueSmall="BTC" />
             <StatTableItem
-              label="Circulating"
-              value="0.24B"
-              valueSmall="KEEP"
-            />
-            <StatTableItem
-              label="Total Supply"
-              value="1.00B"
-              valueSmall="KEEP"
-            />
-            <StatTableItem label="KEEP Holders" value="1,597" valueSmall="" />
-            <StatTableItem
-              label="KEEP/BTC Price"
-              value="0.00009"
-              valueSmall="BTC"
-            />
-            <StatTableItem
-              label="KEEP/ETH Price"
-              value="0.0026"
-              valueSmall="ETH"
+              label="Deposited Value"
+              value="$0.15M"
+              valueSmall="USD"
               divider={false}
             />
           </StatTableCard>
@@ -129,16 +117,28 @@ class App extends React.Component {
               divider={false}
             />
           </StatTableCard>
-          <StatTableCard label="tBTC System Stats" ready={ready}>
-            <StatTableItem label="TBTC Minted" value="39" valueSmall="TBTC" />
-            <StatTableItem label="TBTC Burned" value="0.2" valueSmall="TBTC" />
-            <StatTableItem label="TBTC Holders" value="39" valueSmall="" />
-            <StatTableItem label="Deposits" value="25" valueSmall="" />
-            <StatTableItem label="Deposited" value="13.57" valueSmall="BTC" />
+          <StatTableCard label="Keep Stats" ready={ready}>
+            <StatTableItem label="Market Cap" value="$1.22B" valueSmall="USD" />
             <StatTableItem
-              label="Deposited Value"
-              value="$0.15M"
-              valueSmall="USD"
+              label="Circulating"
+              value="0.24B"
+              valueSmall="KEEP"
+            />
+            <StatTableItem
+              label="Total Supply"
+              value="1.00B"
+              valueSmall="KEEP"
+            />
+            <StatTableItem label="KEEP Holders" value="1,597" valueSmall="" />
+            <StatTableItem
+              label="KEEP/BTC Price"
+              value="0.00009"
+              valueSmall="BTC"
+            />
+            <StatTableItem
+              label="KEEP/ETH Price"
+              value="0.0026"
+              valueSmall="ETH"
               divider={false}
             />
           </StatTableCard>
