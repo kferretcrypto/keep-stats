@@ -157,14 +157,14 @@ const GlobalStyle = createGlobalStyle`
 
 const Layout = styled.div`
   margin: 0 auto;
-  padding: 10px 10px;
+  padding: 10px 16px;
 
   display: flex;
 
   flex-direction: column;
 
   @media only screen and (min-width: 960px) {
-    padding: 30px 10px;
+    padding: 30px 16px;
     width: 900px;
   }
 `
@@ -178,8 +178,6 @@ const Header = styled.div`
 
   @media only screen and (min-width: 960px) {
     margin-bottom: 30px;
-    padding: 30px 10px;
-    width: 900px;
   }
 `
 
