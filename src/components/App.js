@@ -39,9 +39,9 @@ class App extends React.Component {
       <Layout>
         <GlobalStyle />
         <Header>
-          <LogoLink href="/">
+          <a href="/">
             <Logo />
-          </LogoLink>
+          </a>
           <UpdateStatus>
             {updating && <LoadingIndicator />}
             <UpdateLink href="/">
@@ -176,13 +176,11 @@ const Header = styled.div`
   margin-bottom: 30px;
 `
 
-const LogoLink = styled.a`
-  flex: 1;
-`
-
 const UpdateStatus = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   text-align: right;
 `
 
