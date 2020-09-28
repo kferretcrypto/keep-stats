@@ -46,7 +46,10 @@ class App extends React.Component {
             {updating && <LoadingIndicator />}
             <UpdateLink href="/">
               {!ready && 'Loading'}
-              {ready && `Updated ${updateTime.format('h:mm a')}`}
+              {ready &&
+                `Updated ${updateTime.format('h:mm')}\u00A0${updateTime.format(
+                  'A'
+                )}`}
             </UpdateLink>
           </UpdateStatus>
         </Header>
