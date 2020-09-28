@@ -5,7 +5,7 @@ import Card from './Card'
 
 function StatSingleCard(props) {
   return (
-    <Card direction="row">
+    <Card direction="row" ready={props.ready}>
       <Icon color={props.iconColor}>{props.children}</Icon>
       <Stat>
         <StatLabel>{props.label}</StatLabel>

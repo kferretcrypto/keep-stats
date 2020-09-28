@@ -5,7 +5,7 @@ import Card from './Card'
 
 function StatTableCard(props) {
   return (
-    <Card direction="column">
+    <Card direction="column" ready={props.ready}>
       <TableLabel>{props.label}</TableLabel>
       {props.children}
     </Card>

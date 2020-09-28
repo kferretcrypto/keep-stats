@@ -2,7 +2,11 @@ import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 function Card(props) {
-  return <StyledCard direction={props.direction}>{props.children}</StyledCard>
+  return (
+    <StyledCard direction={props.direction} ready={props.ready}>
+      {props.children}
+    </StyledCard>
+  )
 }
 
 const StyledCard = styled.div`
@@ -14,9 +18,16 @@ const StyledCard = styled.div`
 
   padding: 20px;
 
-  background: #ffffff;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  background: ${(props) => (props.ready ? '#FFFFFF' : '#F8F8F8')};
+  box-shadow: 0 ${(props) => (props.ready ? '1px' : '-1px')} 0
+    rgba(0, 0, 0, 0.15);
+  transition: background 0.5s, box-shadow 0.5s;
   border-radius: 20px;
+
+  & > * {
+    opacity: ${(props) => (props.ready ? '1' : '0')};
+    transition: opacity 0.5s;
+  }
 `
 
 export default Card
