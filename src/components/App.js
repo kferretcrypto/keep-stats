@@ -4,6 +4,9 @@ import styled, { createGlobalStyle } from 'styled-components'
 import 'typeface-work-sans'
 
 import { ReactComponent as Logo } from '../assets/logo.svg'
+import { ReactComponent as IconKeep } from '../assets/icon-keep.svg'
+import { ReactComponent as IconLock } from '../assets/icon-lock.svg'
+import { ReactComponent as IconTBTC } from '../assets/icon-tbtc.svg'
 
 import StatSingleCard from './StatSingleCard'
 import StatTableCard from './StatTableCard'
@@ -20,26 +23,29 @@ function App() {
       </Header>
       <Cards>
         <StatSingleCard
-          icon=""
           iconColor="#48DBB4"
           label="KEEP Token Price"
           value="$1.33"
           valueSmall="USD"
-        />
+        >
+          <IconKeep />
+        </StatSingleCard>
         <StatSingleCard
-          icon=""
           iconColor="#7850CD"
           label="Total Value Locked"
           value="$25.71M"
           valueSmall="USD"
-        />
+        >
+          <IconLock />
+        </StatSingleCard>
         <StatSingleCard
-          icon=""
           iconColor="#0A0806"
           label="TBTC Supply"
           value="13.57"
           valueSmall="TBTC"
-        />
+        >
+          <IconTBTC />
+        </StatSingleCard>
       </Cards>
       <Cards>
         <StatTableCard label="Keep Stats">

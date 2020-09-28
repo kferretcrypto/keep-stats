@@ -6,7 +6,7 @@ import Card from './Card'
 function StatSingleCard(props) {
   return (
     <Card direction="row">
-      <Icon color={props.iconColor} />
+      <Icon color={props.iconColor}>{props.children}</Icon>
       <Stat>
         <StatLabel>{props.label}</StatLabel>
         <StatValue>
@@ -19,6 +19,9 @@ function StatSingleCard(props) {
 }
 
 const Icon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 54px;
   height: 54px;
   border-radius: 12px;
