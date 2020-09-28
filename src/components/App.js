@@ -183,6 +183,7 @@ const LogoLink = styled.a`
 const UpdateStatus = styled.div`
   display: flex;
   align-items: center;
+  text-align: right;
 `
 
 const UpdateLink = styled.a`
