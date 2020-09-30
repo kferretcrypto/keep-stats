@@ -26,7 +26,7 @@ const Icon = styled.div`
   height: 54px;
   border-radius: 12px;
   background-color: ${(props) => props.color};
-  margin-right: 20px;
+  margin-right: 16px;
 `
 
 const Stat = styled.div`
@@ -52,6 +52,7 @@ const StatLabel = styled.div`
 const StatValue = styled.div`
   flex: 1;
   font-size: 30px;
+  letter-spacing: -1px;
 `
 
 const StatValueLarge = styled.div`
