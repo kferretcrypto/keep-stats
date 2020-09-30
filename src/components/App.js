@@ -84,7 +84,31 @@ class App extends React.Component {
       ready: false, // initial fetch complete
       updating: false,
       updateTime: null,
-      data: {},
+      data: {
+        ethPrice: 0,
+        btcPrice: 0,
+        keepMarketCap: 0,
+        keepSupply: 0,
+        keepCirculating: 0,
+        keepPrice: 0,
+        keepETHPrice: 0,
+        keepBTCPrice: 0,
+        keepHolders: 0,
+        tbtcSupply: 0,
+        tbtcMint: 0,
+        tbtcBurn: 0,
+        tbtcHolders: 0,
+        deposits: 0,
+        depositedBTC: 0,
+        depositValue: 0,
+        bondedEth: 0,
+        bondedEthValue: 0,
+        unbondedEth: 0,
+        unbondedEthValue: 0,
+        stakedKeep: 0,
+        stakedKeepValue: 0,
+        TVL: 0,
+      },
     }
   }
 
