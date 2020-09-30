@@ -137,7 +137,7 @@ class App extends React.Component {
       ),
       fetch('https://api.coingecko.com/api/v3/coins/keep-network'),
       fetch(
-        'https://api.thegraph.com/subgraphs/name/miracle2k/keep-network',
+        'https://api.thegraph.com/subgraphs/name/miracle2k/all-the-keeps',
         initForQuery(QUERY_ACTIVE_DEPOSITS)
       ),
     ])
@@ -410,10 +410,10 @@ class App extends React.Component {
           </FooterA>
           ,{' '}
           <FooterA
-            href="https://thegraph.com/explorer/subgraph/miracle2k/keep-network"
+            href="https://thegraph.com/explorer/subgraph/miracle2k/all-the-keeps"
             target="_blank"
           >
-            miracle2k/keep-network
+            miracle2k/all-the-keeps
           </FooterA>
           )
         </Footer>
