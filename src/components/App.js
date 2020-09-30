@@ -355,6 +355,44 @@ class App extends React.Component {
             />
           </StatTableCard>
         </Cards>
+        <Footer>
+          <FooterA
+            href="https://github.com/kferretcrypto/keep-stats"
+            target="_blank"
+          >
+            GitHub
+          </FooterA>
+          &nbsp; &middot; &nbsp; Data Sources: &nbsp;
+          <FooterA href="https://coingecko.com" target="_blank">
+            CoinGecko
+          </FooterA>
+          ,&nbsp;
+          <FooterA href="https://ethplorer.io" target="_blank">
+            Ethplorer
+          </FooterA>
+          ,&nbsp;The Graph (
+          <FooterA
+            href="https://thegraph.com/explorer/subgraph/suntzu93/keepnetwork"
+            target="_blank"
+          >
+            suntzu93/keepnetwork
+          </FooterA>
+          ,&nbsp;
+          <FooterA
+            href="https://thegraph.com/explorer/subgraph/suntzu93/tbtc"
+            target="_blank"
+          >
+            suntzu93/tbtc
+          </FooterA>
+          ,&nbsp;
+          <FooterA
+            href="https://thegraph.com/explorer/subgraph/miracle2k/keep-network"
+            target="_blank"
+          >
+            miracle2k/keep-network
+          </FooterA>
+          )
+        </Footer>
       </Layout>
     )
   }
@@ -362,7 +400,7 @@ class App extends React.Component {
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: #F4F4F4;
+    background-color: #f4f4f4;
     font-family: Work Sans;
   }
 `
@@ -446,4 +484,19 @@ const Cards = styled.div`
   }
 `
 
+const Footer = styled.div`
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  font-size: 12px;
+  color: #aaa;
+
+  @media only screen and (min-width: 960px) {
+    margin-bottom: 30px;
+  }
+`
+
+const FooterA = styled.a`
+  color: #aaa;
+`
 export default App
