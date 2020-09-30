@@ -361,30 +361,30 @@ class App extends React.Component {
             target="_blank"
           >
             GitHub
-          </FooterA>
-          &nbsp; &middot; &nbsp; Data Sources: &nbsp;
+          </FooterA>{' '}
+          &nbsp;&middot;&nbsp; Data Sources:{' '}
           <FooterA href="https://coingecko.com" target="_blank">
             CoinGecko
           </FooterA>
-          ,&nbsp;
+          ,{' '}
           <FooterA href="https://ethplorer.io" target="_blank">
             Ethplorer
           </FooterA>
-          ,&nbsp;The Graph (
+          , The Graph (
           <FooterA
             href="https://thegraph.com/explorer/subgraph/suntzu93/keepnetwork"
             target="_blank"
           >
             suntzu93/keepnetwork
           </FooterA>
-          ,&nbsp;
+          ,{' '}
           <FooterA
             href="https://thegraph.com/explorer/subgraph/suntzu93/tbtc"
             target="_blank"
           >
             suntzu93/tbtc
           </FooterA>
-          ,&nbsp;
+          ,{' '}
           <FooterA
             href="https://thegraph.com/explorer/subgraph/miracle2k/keep-network"
             target="_blank"
