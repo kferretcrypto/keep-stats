@@ -485,6 +485,7 @@ const rotate = keyframes`
 `
 
 const LoadingIndicator = styled.div`
+  margin-left: 16px;
   width: 14px;
   height: 14px;
   border-radius: 10px;
