@@ -18,12 +18,8 @@ import StatTableItem from './StatTableItem'
 const ETHPLORER_KEY = 'EK-nMxV5-HK1sNWU-5NQh7'
 
 const KEEP_ADDRESS = '0x85Eee30c52B0b379b046Fb0F85F4f3Dc3009aFEC'
-const STAKEDROP_ADDRESS = '0x68Eb4dE507C6802D73904A18FB228C7DC2981200'
-const LIQUIDITY_ADDRESS = '0xbfadac08e7e94e3a5162371bc68b17731048d90b'
 
 const urlToFetchKeepToken = `https://api.ethplorer.io/getTokenInfo/${KEEP_ADDRESS}?apiKey=${ETHPLORER_KEY}`
-const urlToFetchStakeDrop = `https://api.ethplorer.io/getAddressInfo/${STAKEDROP_ADDRESS}?apiKey=${ETHPLORER_KEY}&tokens=${KEEP_ADDRESS}`
-const urlToFetchLiquidity = `https://api.ethplorer.io/getAddressInfo/${LIQUIDITY_ADDRESS}?apiKey=${ETHPLORER_KEY}&tokens=${KEEP_ADDRESS}`
 
 const QUERY_TBTCTOKENS = `
 {
@@ -115,8 +111,6 @@ class App extends React.Component {
   fetchAllData = async () => {
     const results = await Promise.all([
       fetch(urlToFetchKeepToken),
-      fetch(urlToFetchStakeDrop),
-      fetch(urlToFetchLiquidity),
       fetch(
         'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
       ),
@@ -162,30 +156,30 @@ class App extends React.Component {
       const results = await this.fetchAllData()
       console.log(results)
       const data = {
-        ethPrice: results[3].ethereum.usd,
-        btcPrice: results[4].bitcoin.usd,
-        keepMarketCap: results[8].market_data.market_cap.usd,
-        keepSupply: results[8].market_data.total_supply,
-        keepCirculating: results[8].market_data.circulating_supply,
+        ethPrice: results[1].ethereum.usd,
+        btcPrice: results[2].bitcoin.usd,
+        keepMarketCap: results[6].market_data.market_cap.usd,
+        keepSupply: results[6].market_data.total_supply,
+        keepCirculating: results[6].market_data.circulating_supply,
         keepPrice: results[0].price.rate,
-        keepETHPrice: results[8].market_data.current_price.eth,
-        keepBTCPrice: results[8].market_data.current_price.btc,
+        keepETHPrice: results[6].market_data.current_price.eth,
+        keepBTCPrice: results[6].market_data.current_price.btc,
         keepHolders: results[0].holdersCount,
-        tbtcSupply: results[5].data.tbtctokens[0].totalSupply,
-        tbtcMint: results[5].data.tbtctokens[0].totalMint,
-        tbtcBurn: results[5].data.tbtctokens[0].totalBurn,
-        tbtcHolders: results[5].data.tbtctokens[0].currentTokenHolders,
-        deposits: results[6].data.totalBondedECDSAKeeps[0].totalKeepActive,
-        depositedBTC: results[9].data.deposits
+        tbtcSupply: results[3].data.tbtctokens[0].totalSupply,
+        tbtcMint: results[3].data.tbtctokens[0].totalMint,
+        tbtcBurn: results[3].data.tbtctokens[0].totalBurn,
+        tbtcHolders: results[3].data.tbtctokens[0].currentTokenHolders,
+        deposits: results[4].data.totalBondedECDSAKeeps[0].totalKeepActive,
+        depositedBTC: results[7].data.deposits
           .reduce((total, keep) => total.plus(keep.lotSizeSatoshis), Big('0'))
           .div(10 ** 8)
           .toFixed(2),
         depositValue: 0,
-        bondedEth: results[6].data.totalBondedECDSAKeeps[0].totalBonded,
+        bondedEth: results[4].data.totalBondedECDSAKeeps[0].totalBonded,
         bondedEthValue: 0,
-        unbondedEth: results[6].data.totalBondedECDSAKeeps[0].totalAvailable,
+        unbondedEth: results[4].data.totalBondedECDSAKeeps[0].totalAvailable,
         unbondedEthValue: 0,
-        stakedKeep: results[7].data.tokenStakings[0].totalTokenStaking,
+        stakedKeep: results[5].data.tokenStakings[0].totalTokenStaking,
         stakedKeepValue: 0,
         TVL: 0,
       }
