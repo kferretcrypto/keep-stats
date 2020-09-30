@@ -1,7 +1,5 @@
 import React from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
-
-import Card from './Card'
+import styled from 'styled-components'
 
 function StatTableItem(props) {
   return (
