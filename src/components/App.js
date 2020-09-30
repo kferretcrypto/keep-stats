@@ -1,6 +1,8 @@
 import React from 'react'
 import styled, { createGlobalStyle, keyframes } from 'styled-components'
 import moment from 'moment'
+import Humanize from 'humanize-plus'
+import Big from 'big.js'
 
 import 'typeface-work-sans'
 
@@ -13,28 +15,197 @@ import StatSingleCard from './StatSingleCard'
 import StatTableCard from './StatTableCard'
 import StatTableItem from './StatTableItem'
 
+const ETHPLORER_KEY = 'EK-nMxV5-HK1sNWU-5NQh7'
+
+const KEEP_ADDRESS = '0x85Eee30c52B0b379b046Fb0F85F4f3Dc3009aFEC'
+const STAKEDROP_ADDRESS = '0x68Eb4dE507C6802D73904A18FB228C7DC2981200'
+const STAKING_ADDRESS = '0x1293a54e160D1cd7075487898d65266081A15458'
+const LIQUIDITY_ADDRESS = '0xbfadac08e7e94e3a5162371bc68b17731048d90b'
+
+const urlToFetchKeepToken = `https://api.ethplorer.io/getTokenInfo/${KEEP_ADDRESS}?apiKey=${ETHPLORER_KEY}`
+const urlToFetchStakeDrop = `https://api.ethplorer.io/getAddressInfo/${STAKEDROP_ADDRESS}?apiKey=${ETHPLORER_KEY}&tokens=${KEEP_ADDRESS}`
+const urlToFetchLiquidity = `https://api.ethplorer.io/getAddressInfo/${LIQUIDITY_ADDRESS}?apiKey=${ETHPLORER_KEY}&tokens=${KEEP_ADDRESS}`
+
+const QUERY_TBTCTOKENS = `
+{
+  tbtctokens {
+    currentTokenHolders
+    totalMint
+    totalBurn
+    totalSupply
+  }
+}`
+
+const QUERY_TOTAL_BONDED_ECDSA_KEEPS = `
+{
+  totalBondedECDSAKeeps {
+    id
+    totalAvailable
+    totalBonded
+    totalKeepActive
+    totalKeepOpened
+  }
+}`
+
+const QUERY_TOKEN_STAKINGS = `
+{
+  tokenStakings {
+    contractAddress
+    totalStaker
+    totalTokenStaking
+    totalTokenSlash
+    members(first: 5, where: {stakingState: STAKED}, orderBy: amount, orderDirection: desc) {
+      id
+      amount
+    }
+  }
+}`
+
+// We need to do this differently to support more than 1000 queries, a limit of the API
+const QUERY_ACTIVE_DEPOSITS = `
+{
+  deposits(where: {currentState: ACTIVE}, first: 1000) {
+    lotSizeSatoshis
+  }
+}`
+
+const initForQuery = (query) => ({
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ query, variables: {} }),
+})
+
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       ready: false, // initial fetch complete
-      updating: true,
+      updating: false,
       updateTime: null,
+      data: {},
     }
   }
 
-  componentDidMount() {
-    setTimeout(() => {
+  fetchAllData = async () => {
+    const results = await Promise.all([
+      fetch(urlToFetchKeepToken),
+      fetch(urlToFetchStakeDrop),
+      fetch(urlToFetchLiquidity),
+      fetch(
+        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+      ),
+      fetch(
+        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+      ),
+      fetch(
+        'https://api.thegraph.com/subgraphs/name/suntzu93/tbtc',
+        initForQuery(QUERY_TBTCTOKENS)
+      ),
+      fetch(
+        'https://api.thegraph.com/subgraphs/name/suntzu93/tbtc',
+        initForQuery(QUERY_TOTAL_BONDED_ECDSA_KEEPS)
+      ),
+      fetch(
+        'https://api.thegraph.com/subgraphs/name/suntzu93/keepnetwork',
+        initForQuery(QUERY_TOKEN_STAKINGS)
+      ),
+      fetch('https://api.coingecko.com/api/v3/coins/keep-network'),
+      fetch(
+        'https://api.thegraph.com/subgraphs/name/miracle2k/keep-network',
+        initForQuery(QUERY_ACTIVE_DEPOSITS)
+      ),
+    ])
+
+    const resultsJson = Promise.all(
+      results.map(async (result) => result.json())
+    )
+
+    console.log(results)
+    return resultsJson
+  }
+
+  updateData = async () => {
+    console.log('updateData')
+    if (this.state.updating) {
+      return
+    }
+    this.setState({
+      updating: true,
+    })
+    try {
+      const results = await this.fetchAllData()
+      console.log(results)
+      const data = {
+        ethPrice: results[3].ethereum.usd,
+        btcPrice: results[4].bitcoin.usd,
+        keepMarketCap: results[8].market_data.market_cap.usd,
+        keepSupply: results[8].market_data.total_supply,
+        keepCirculating: results[8].market_data.circulating_supply,
+        keepPrice: results[0].price.rate,
+        keepETHPrice: results[8].market_data.current_price.eth,
+        keepBTCPrice: results[8].market_data.current_price.btc,
+        keepHolders: results[0].holdersCount,
+        tbtcSupply: results[5].data.tbtctokens[0].totalSupply,
+        tbtcMint: results[5].data.tbtctokens[0].totalMint,
+        tbtcBurn: results[5].data.tbtctokens[0].totalBurn,
+        tbtcHolders: results[5].data.tbtctokens[0].currentTokenHolders,
+        deposits: results[6].data.totalBondedECDSAKeeps[0].totalKeepActive,
+        depositedBTC: results[9].data.deposits
+          .reduce((total, keep) => total.plus(keep.lotSizeSatoshis), Big('0'))
+          .div(10 ** 8)
+          .toFixed(2),
+        depositValue: 0,
+        bondedEth: results[6].data.totalBondedECDSAKeeps[0].totalBonded,
+        bondedEthValue: 0,
+        unbondedEth: results[6].data.totalBondedECDSAKeeps[0].totalAvailable,
+        unbondedEthValue: 0,
+        stakedKeep: results[7].data.tokenStakings[0].totalTokenStaking,
+        stakedKeepValue: 0,
+        TVL: 0,
+      }
+
+      data.depositValue = data.depositedBTC * data.btcPrice
+      data.stakedKeepValue = data.stakedKeep * data.keepPrice
+      data.bondedEthValue = data.bondedEth * data.ethPrice
+      data.unbondedEthValue = data.unbondedEth * data.ethPrice
+      data.TVL =
+        data.bondedEthValue +
+        data.unbondedEthValue +
+        data.stakedKeepValue +
+        data.depositValue
+
+      console.log(data)
+
       this.setState({
+        data,
         ready: true,
         updating: false,
         updateTime: moment(),
+        error: null,
       })
-    }, 1000)
+    } catch (e) {
+      console.log('err', e)
+      this.setState({
+        updating: false,
+        error: e,
+      })
+    }
+  }
+
+  async componentDidMount() {
+    await this.updateData()
+    this.timerID = setInterval(this.updateData, 60 * 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
   }
 
   render() {
-    const { ready, updating, updateTime } = this.state
+    const { ready, updating, updateTime, data, error } = this.state
     return (
       <Layout>
         <GlobalStyle />
@@ -44,9 +215,11 @@ class App extends React.Component {
           </a>
           <UpdateStatus>
             {updating && <LoadingIndicator />}
-            <UpdateLink href="/">
-              {!ready && 'Loading'}
-              {ready &&
+            <UpdateLink href="/" error={error}>
+              {error && 'API Error'}
+              {!error && !ready && 'Loading'}
+              {!error &&
+                ready &&
                 `Updated ${updateTime.format('h:mm')}\u00A0${updateTime.format(
                   'A'
                 )}`}
@@ -57,7 +230,7 @@ class App extends React.Component {
           <StatSingleCard
             iconColor="#0A0806"
             label="TBTC Supply"
-            value="13.57"
+            value={Humanize.formatNumber(data.tbtcSupply, 2)}
             valueSmall="TBTC"
             ready={ready}
           >
@@ -66,7 +239,7 @@ class App extends React.Component {
           <StatSingleCard
             iconColor="#7850CD"
             label="Total Value Locked"
-            value="$25.71M"
+            value={`$${Humanize.compactInteger(data.TVL, 2)}`}
             valueSmall="USD"
             ready={ready}
           >
@@ -75,7 +248,7 @@ class App extends React.Component {
           <StatSingleCard
             iconColor="#48DBB4"
             label="KEEP Token Price"
-            value="$1.33"
+            value={`$${Humanize.formatNumber(data.keepPrice, 2)}`}
             valueSmall="USD"
             ready={ready}
           >
@@ -84,61 +257,101 @@ class App extends React.Component {
         </Cards>
         <Cards>
           <StatTableCard label="tBTC System Stats" ready={ready}>
-            <StatTableItem label="TBTC Minted" value="39" valueSmall="TBTC" />
-            <StatTableItem label="TBTC Burned" value="0.2" valueSmall="TBTC" />
-            <StatTableItem label="TBTC Holders" value="39" valueSmall="" />
-            <StatTableItem label="Deposits" value="25" valueSmall="" />
-            <StatTableItem label="Deposited" value="13.57" valueSmall="BTC" />
+            <StatTableItem
+              label="TBTC Minted"
+              value={Humanize.formatNumber(data.tbtcMint, 2)}
+              valueSmall="TBTC"
+            />
+            <StatTableItem
+              label="TBTC Burned"
+              value={Humanize.formatNumber(data.tbtcBurn, 2)}
+              valueSmall="TBTC"
+            />
+            <StatTableItem
+              label="TBTC Holders"
+              value={Humanize.formatNumber(data.tbtcHolders)}
+              valueSmall=""
+            />
+            <StatTableItem
+              label="Deposits"
+              value={Humanize.formatNumber(data.deposits)}
+              valueSmall=""
+            />
+            <StatTableItem
+              label="Deposited"
+              value={Humanize.formatNumber(data.depositedBTC, 2)}
+              valueSmall="BTC"
+            />
             <StatTableItem
               label="Deposited Value"
-              value="$0.15M"
+              value={`$${Humanize.compactInteger(data.depositValue, 2)}`}
               valueSmall="USD"
               divider={false}
             />
           </StatTableCard>
           <StatTableCard label="Staking and Bonding" ready={ready}>
-            <StatTableItem label="Staked" value="24.71M" valueSmall="KEEP" />
+            <StatTableItem
+              label="Staked"
+              value={Humanize.compactInteger(data.stakedKeep, 2)}
+              valueSmall="KEEP"
+            />
             <StatTableItem
               label="Staked Value"
-              value="$24.54M"
+              value={`$${Humanize.compactInteger(data.stakedKeepValue, 2)}`}
               valueSmall="USD"
             />
-            <StatTableItem label="Bonded" value="43.84" valueSmall="ETH" />
+            <StatTableItem
+              label="Bonded"
+              value={Humanize.compactInteger(data.bondedEth, 2)}
+              valueSmall="ETH"
+            />
             <StatTableItem
               label="Bonded Value"
-              value="$16,396"
+              value={`$${Humanize.compactInteger(data.bondedEthValue, 2)}`}
               valueSmall="USD"
             />
-            <StatTableItem label="Unbonded" value="2,882.50" valueSmall="ETH" />
+            <StatTableItem
+              label="Unbonded"
+              value={Humanize.compactInteger(data.unbondedEth, 2)}
+              valueSmall="ETH"
+            />
             <StatTableItem
               label="Unbonded Value"
-              value="$1.04M"
+              value={`$${Humanize.compactInteger(data.unbondedEthValue, 2)}`}
               valueSmall="USD"
               divider={false}
             />
           </StatTableCard>
           <StatTableCard label="Keep Stats" ready={ready}>
-            <StatTableItem label="Market Cap" value="$1.22B" valueSmall="USD" />
+            <StatTableItem
+              label="Market Cap"
+              value={`$${Humanize.compactInteger(data.keepMarketCap, 2)}`}
+              valueSmall="USD"
+            />
             <StatTableItem
               label="Circulating"
-              value="0.24B"
+              value={Humanize.compactInteger(data.keepCirculating, 2)}
               valueSmall="KEEP"
             />
             <StatTableItem
               label="Total Supply"
-              value="1.00B"
+              value={Humanize.compactInteger(data.keepSupply, 2)}
               valueSmall="KEEP"
             />
-            <StatTableItem label="KEEP Holders" value="1,597" valueSmall="" />
+            <StatTableItem
+              label="KEEP Holders"
+              value={Humanize.formatNumber(data.keepHolders)}
+              valueSmall=""
+            />
             <StatTableItem
               label="KEEP/BTC Price"
-              value="0.00009"
-              valueSmall="BTC"
+              value={Humanize.formatNumber(data.keepBTCPrice, 8)}
+              valueSmall=""
             />
             <StatTableItem
               label="KEEP/ETH Price"
-              value="0.0026"
-              valueSmall="ETH"
+              value={Humanize.formatNumber(data.keepETHPrice, 8)}
+              valueSmall=""
               divider={false}
             />
           </StatTableCard>
@@ -192,7 +405,7 @@ const UpdateStatus = styled.div`
 const UpdateLink = styled.a`
   margin-left: 10px;
 
-  color: #888888;
+  color: ${(props) => (props.error ? '#ff0000' : '#888888')};
   text-decoration: none;
   font-size: 14px;
 
