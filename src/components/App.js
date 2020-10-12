@@ -167,7 +167,7 @@ class App extends React.Component {
         tbtcBurn: results[3].data.tbtctokens[0].totalBurn,
         tbtcHolders: results[3].data.tbtctokens[0].currentTokenHolders,
         deposits: results[4].data.totalBondedECDSAKeeps[0].totalKeepActive,
-        depositedBTC: Big(results[7].data.stats.btcUnderDeposit)
+        depositedBTC: Big(results[7].data.stats.btcInActiveDeposits)
           .div(10 ** 8)
           .toFixed(2),
         depositValue: 0,
