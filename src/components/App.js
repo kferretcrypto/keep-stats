@@ -56,12 +56,9 @@ const QUERY_TOKEN_STAKINGS = `
   }
 }`
 
-// We need to do this differently to support more than 1000 queries, a limit of the API
 const QUERY_ACTIVE_DEPOSITS = `
 {
-  deposits(where: {currentState: ACTIVE}, first: 1000) {
-    lotSizeSatoshis
-  }
+  stats: statsRecord(id: "current") { btcInActiveDeposits }  
 }`
 
 const initForQuery = (query) => ({
@@ -170,8 +167,7 @@ class App extends React.Component {
         tbtcBurn: results[3].data.tbtctokens[0].totalBurn,
         tbtcHolders: results[3].data.tbtctokens[0].currentTokenHolders,
         deposits: results[4].data.totalBondedECDSAKeeps[0].totalKeepActive,
-        depositedBTC: results[7].data.deposits
-          .reduce((total, keep) => total.plus(keep.lotSizeSatoshis), Big('0'))
+        depositedBTC: Big(results[7].data.stats.btcInActiveDeposits)
           .div(10 ** 8)
           .toFixed(2),
         depositValue: 0,
