@@ -58,7 +58,7 @@ const QUERY_TOKEN_STAKINGS = `
 
 const QUERY_ACTIVE_DEPOSITS = `
 {
-  stats: statsRecord(id: "current") { btcUnderDeposit }  
+  stats: statsRecord(id: "current") { btcInActiveDeposits }  
 }`
 
 const initForQuery = (query) => ({
