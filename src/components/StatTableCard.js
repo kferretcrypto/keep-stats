@@ -14,6 +14,7 @@ function StatTableCard(props) {
 
 const TableLabel = styled.div`
   font-size: 20px;
+  color: ${(props) => props.theme.valueColor};
 `
 
 export default StatTableCard

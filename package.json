@@ -10,6 +10,7 @@
     "humanize-plus": "^1.8.2",
     "moment": "^2.29.0",
     "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-router-ga": "^1.2.3",

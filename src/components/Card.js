@@ -18,7 +18,8 @@ const StyledCard = styled.div`
 
   padding: 20px;
 
-  background: ${(props) => (props.ready ? '#FFFFFF' : '#F8F8F8')};
+  background: ${(props) =>
+    props.ready ? props.theme.cardBg : props.theme.cardLoadingBg};
   box-shadow: 0 ${(props) => (props.ready ? '1px' : '-1px')} 0
     rgba(0, 0, 0, 0.15);
   transition: background 0.5s, box-shadow 0.5s;
