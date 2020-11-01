@@ -26,7 +26,7 @@ const StatLabel = styled.div`
   flex: 1;
   font-weight: 500;
   font-size: 14px;
-  color: #8c8c8c;
+  color: ${(props) => props.theme.labelColor};
   padding-top: 1px;
 `
 
@@ -34,6 +34,7 @@ const StatValue = styled.div`
   flex: 1;
   font-weight: 500;
   font-size: 18px;
+  color: ${(props) => props.theme.valueColor};
 
   padding-left: 74px;
   @media only screen and (min-width: 960px) {

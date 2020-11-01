@@ -45,7 +45,7 @@ const StatLabel = styled.div`
   flex: 1;
   font-weight: 500;
   font-size: 14px;
-  color: #8c8c8c;
+  color: ${(props) => props.theme.labelColor};
   text-transform: uppercase;
 `
 
@@ -53,6 +53,7 @@ const StatValue = styled.div`
   flex: 1;
   font-size: 30px;
   letter-spacing: -1px;
+  color: ${(props) => props.theme.valueColor};
 `
 
 const StatValueLarge = styled.div`

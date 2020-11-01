@@ -5,12 +5,15 @@ import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Analytics from 'react-router-ga'
+import { CookiesProvider } from 'react-cookie'
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Analytics id="UA-179129661-1">
-        <App />
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
       </Analytics>
     </Router>
   </React.StrictMode>,
