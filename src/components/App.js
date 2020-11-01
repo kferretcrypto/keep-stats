@@ -83,6 +83,7 @@ const THEMES = {
     cardLoadingBg: '#262626',
     labelColor: '#aaaaaa',
     valueColor: '#ffffff',
+    dividerColor: '#555555',
   },
   light: {
     bodyBg: '#f4f4f4',
@@ -90,6 +91,7 @@ const THEMES = {
     cardLoadingBg: '#F8F8F8',
     labelColor: '#8c8c8c',
     valueColor: '#000000',
+    dividerColor: '#ececec',
   },
 }
 
