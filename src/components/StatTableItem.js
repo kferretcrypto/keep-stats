@@ -19,7 +19,7 @@ const StyledStatTableItem = styled.div`
   height: 40px;
   align-items: center;
   border-bottom: ${(props) =>
-    props.divider === false ? 'none' : '1px solid #ECECEC'};
+    props.divider === false ? 'none' : `1px solid ${props.theme.dividerColor}`};
 `
 
 const StatLabel = styled.div`
