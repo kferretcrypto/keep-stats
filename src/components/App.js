@@ -97,7 +97,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      dark: !!props.cookies.get('dark'),
+      dark: props.cookies.get('dark') == 'true',
       ready: false, // initial fetch complete
       updating: false,
       updateTime: null,
