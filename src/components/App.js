@@ -301,13 +301,11 @@ class App extends React.Component {
             <StatTableCard label="tBTC System Stats" ready={ready}>
               <StatTableItem
                 label="TBTC Minted"
-                value={Humanize.compactInteger(data.tbtcMint, 2)}
-                valueSmall="TBTC"
+                value={Humanize.formatNumber(data.tbtcMint, 2)}
               />
               <StatTableItem
                 label="TBTC Burned"
-                value={Humanize.compactInteger(data.tbtcBurn, 2)}
-                valueSmall="TBTC"
+                value={Humanize.formatNumber(data.tbtcBurn, 2)}
               />
               <StatTableItem
                 label="TBTC Holders"
