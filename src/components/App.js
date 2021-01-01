@@ -284,7 +284,6 @@ class App extends React.Component {
               iconColor="#7850CD"
               label="Total Value Locked"
               value={`$${Humanize.compactInteger(data.TVL, 2)}`}
-              valueSmall="USD"
               ready={ready}
             >
               <IconLock />
@@ -293,7 +292,6 @@ class App extends React.Component {
               iconColor="#48DBB4"
               label="KEEP Token Price"
               value={`$${Humanize.formatNumber(data.keepPrice, 2)}`}
-              valueSmall="USD"
               ready={ready}
             >
               <IconKeep />
@@ -303,12 +301,12 @@ class App extends React.Component {
             <StatTableCard label="tBTC System Stats" ready={ready}>
               <StatTableItem
                 label="TBTC Minted"
-                value={Humanize.formatNumber(data.tbtcMint, 2)}
+                value={Humanize.compactInteger(data.tbtcMint, 2)}
                 valueSmall="TBTC"
               />
               <StatTableItem
                 label="TBTC Burned"
-                value={Humanize.formatNumber(data.tbtcBurn, 2)}
+                value={Humanize.compactInteger(data.tbtcBurn, 2)}
                 valueSmall="TBTC"
               />
               <StatTableItem
@@ -329,7 +327,6 @@ class App extends React.Component {
               <StatTableItem
                 label="Deposited Value"
                 value={`$${Humanize.compactInteger(data.depositValue, 2)}`}
-                valueSmall="USD"
                 divider={false}
               />
             </StatTableCard>
@@ -342,7 +339,6 @@ class App extends React.Component {
               <StatTableItem
                 label="Staked Value"
                 value={`$${Humanize.compactInteger(data.stakedKeepValue, 2)}`}
-                valueSmall="USD"
               />
               <StatTableItem
                 label="Bonded"
@@ -352,7 +348,6 @@ class App extends React.Component {
               <StatTableItem
                 label="Bonded Value"
                 value={`$${Humanize.compactInteger(data.bondedEthValue, 2)}`}
-                valueSmall="USD"
               />
               <StatTableItem
                 label="Unbonded"
@@ -362,7 +357,6 @@ class App extends React.Component {
               <StatTableItem
                 label="Unbonded Value"
                 value={`$${Humanize.compactInteger(data.unbondedEthValue, 2)}`}
-                valueSmall="USD"
                 divider={false}
               />
             </StatTableCard>
@@ -370,7 +364,6 @@ class App extends React.Component {
               <StatTableItem
                 label="Market Cap"
                 value={`$${Humanize.compactInteger(data.keepMarketCap, 2)}`}
-                valueSmall="USD"
               />
               <StatTableItem
                 label="Circulating"
