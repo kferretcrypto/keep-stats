@@ -141,10 +141,7 @@ class App extends React.Component {
     const results = await Promise.all([
       fetch(urlToFetchKeepToken),
       fetch(
-        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
-      ),
-      fetch(
-        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd'
       ),
       fetch(
         'https://api.thegraph.com/subgraphs/name/suntzu93/tbtc',
@@ -186,28 +183,28 @@ class App extends React.Component {
       console.log(results)
       const data = {
         ethPrice: results[1].ethereum.usd,
-        btcPrice: results[2].bitcoin.usd,
-        keepMarketCap: results[6].market_data.market_cap.usd,
-        keepSupply: results[6].market_data.total_supply,
-        keepCirculating: results[6].market_data.circulating_supply,
+        btcPrice: results[1].bitcoin.usd,
+        keepMarketCap: results[5].market_data.market_cap.usd,
+        keepSupply: results[5].market_data.total_supply,
+        keepCirculating: results[5].market_data.circulating_supply,
         keepPrice: results[0].price.rate,
-        keepETHPrice: results[6].market_data.current_price.eth,
-        keepBTCPrice: results[6].market_data.current_price.btc,
+        keepETHPrice: results[5].market_data.current_price.eth,
+        keepBTCPrice: results[5].market_data.current_price.btc,
         keepHolders: results[0].holdersCount,
-        tbtcSupply: results[3].data.tbtctokens[0].totalSupply,
-        tbtcMint: results[3].data.tbtctokens[0].totalMint,
-        tbtcBurn: results[3].data.tbtctokens[0].totalBurn,
-        tbtcHolders: results[3].data.tbtctokens[0].currentTokenHolders,
-        deposits: results[4].data.totalBondedECDSAKeeps[0].totalKeepActive,
-        depositedBTC: Big(results[7].data.stats.btcInActiveDeposits)
+        tbtcSupply: results[2].data.tbtctokens[0].totalSupply,
+        tbtcMint: results[2].data.tbtctokens[0].totalMint,
+        tbtcBurn: results[2].data.tbtctokens[0].totalBurn,
+        tbtcHolders: results[2].data.tbtctokens[0].currentTokenHolders,
+        deposits: results[3].data.totalBondedECDSAKeeps[0].totalKeepActive,
+        depositedBTC: Big(results[6].data.stats.btcInActiveDeposits)
           .div(10 ** 8)
           .toFixed(2),
         depositValue: 0,
-        bondedEth: results[4].data.totalBondedECDSAKeeps[0].totalBonded,
+        bondedEth: results[3].data.totalBondedECDSAKeeps[0].totalBonded,
         bondedEthValue: 0,
-        unbondedEth: results[4].data.totalBondedECDSAKeeps[0].totalAvailable,
+        unbondedEth: results[3].data.totalBondedECDSAKeeps[0].totalAvailable,
         unbondedEthValue: 0,
-        stakedKeep: results[5].data.tokenStakings[0].totalTokenStaking,
+        stakedKeep: results[4].data.tokenStakings[0].totalTokenStaking,
         stakedKeepValue: 0,
         TVL: 0,
       }
